@@ -89,6 +89,14 @@ class Fleet:
         self.ships['submarine_1'] = Submarine()
         self.ships['submarine_2'] = Submarine()
 
+        self.shots_per_minute = self.get_shots_per_minute()
+
+    def get_shots_per_minute(self):
+        spm_sum = 0
+        for ship in self.ships.values():
+            spm_sum += ship.shots_per_minute
+        return spm_sum
+
     def place_ships(self):
         for ship in self.ships.values():
             ship.place_ship()
@@ -107,6 +115,7 @@ class Fleet:
         for ship in self.ships.values():
             if ship.check_hit(coordinates):
                 ship.got_hit()
+                self.shots_per_minute = self.get_shots_per_minute()
                 if ship.destroyed:
                     return True, True
                 return True, False
